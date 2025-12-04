@@ -1,18 +1,33 @@
-# 1. Use the Eclipse Temurin JDK for the build stage.
-FROM eclipse-temurin:17-jdk-jammy as builder
+# ============================
+# 1. BUILD STAGE
+# ============================
+FROM eclipse-temurin:17-jdk-jammy AS builder
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the mvnw, pom.xml, and src directory to the container
+# Copy Maven wrapper files
 COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
 
-# NEW LINE ADDED HERE: Grant execute permission to the mvnw script
+# Give execute permission to mvnw (important for Linux)
 RUN chmod +x mvnw
 
-# Run the build command
-RUN ./mvnw package -DskipTests
-# ... (rest of your Dockerfile)
+# Build the Spring Boot application
+RUN ./mvnw clean package -DskipTests
+
+# ============================
+# 2. RUN STAGE
+# ============================
+FROM eclipse-temurin:17-jdk-jammy
+
+WORKDIR /app
+
+# Copy the built jar file from the builder stage
+COPY --from=builder /app/target/*.jar app.jar
+
+EXPOSE 8080
+
+# Start Spring Boot
+ENTRYPOINT ["java", "-jar", "app.jar"]
