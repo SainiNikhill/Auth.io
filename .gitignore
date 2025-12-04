@@ -1,0 +1,84 @@
+# ---------------------------------------------------------------------- #
+# 1. Spring Boot / Java / Maven / Gradle
+# ---------------------------------------------------------------------- #
+# Compiled class files
+*.class
+
+# Package files (.jar, .war, .ear, etc.)
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# Maven build directory
+/target/
+
+# Gradle build directory (if using Gradle)
+/build/
+
+# Log files
+*.log
+
+# JVM crash logs
+hs_err_pid*
+
+# Maven wrapper files (if you prefer to regenerate them on build)
+.mvn/wrapper/maven-wrapper.jar
+
+# ---------------------------------------------------------------------- #
+# 2. React / Node.js
+# ---------------------------------------------------------------------- #
+# Node dependency directory (Critical!)
+/node_modules/
+
+# Compiled/Bundled front-end assets (if using a standard output like 'build' or 'dist')
+/build/
+/dist/
+/out/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional: Cache files
+.npm
+.eslintcache
+.yarn/
+
+# ---------------------------------------------------------------------- #
+# 3. Environment/Secrets
+# ---------------------------------------------------------------------- #
+# NEVER commit environment variables or secrets!
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+**/application-dev.yml
+**/application-local.properties
+**/application.yml.example
+
+# ---------------------------------------------------------------------- #
+# 4. IDE and OS Files (Cross-Platform)
+# ---------------------------------------------------------------------- #
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# VS Code
+.vscode/
+
+# Eclipse
+.settings/
+.project
+.classpath
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
