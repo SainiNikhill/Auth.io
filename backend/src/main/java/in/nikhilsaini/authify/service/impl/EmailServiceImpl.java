@@ -1,31 +1,33 @@
 package in.nikhilsaini.authify.service.impl;
 
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
 import in.nikhilsaini.authify.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper; // NEW IMPORT
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import com.sendgrid.*;
 
-import jakarta.mail.internet.MimeMessage; // NEW IMPORT
-import jakarta.mail.MessagingException; // NEW IMPORT
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
-    @Value("${spring.mail.username}")
+    @Value("${app.mail.from}")
     private String fromEmail;
 
-    private final JavaMailSender mailSender;
+    @Value("${sendgrid.api.key}")
+    private String sendGridApiKey;
+
     private final String APP_NAME = "Authify";
 
     @Async
     @Override
     public void sendVerificationOtp(String toEmail, String otp) {
         String subject = "Verify your email - " + APP_NAME;
-        // HTML Body for better formatting
         String htmlBody = "<p>Your verification OTP is: <b>" + otp + "</b></p>"
                 + "<p>This OTP will expire in 10 minutes.</p>"
                 + "<p>Thank you for registering with " + APP_NAME + "!</p>";
@@ -37,7 +39,6 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendPasswordResetOtp(String toEmail, String otp) {
         String subject = "Reset your Password - " + APP_NAME;
-        // HTML Body for better formatting
         String htmlBody = "<p>Your password reset OTP is: <b>" + otp + "</b></p>"
                 + "<p>This OTP will expire in 10 minutes.</p>"
                 + "<p>If you did not request this, please ignore this email.</p>";
@@ -48,45 +49,39 @@ public class EmailServiceImpl implements EmailService {
     @Async
     @Override
     public void sendWelcomeEmail(String toEmail, String name) {
-        String subject = "Welcome to " + APP_NAME + "!";
-        // HTML Body for better formatting and emojis
+        String subject = "Welcome to " + APP_NAME + "! 🎉";
         String htmlBody = "<h3>Hello " + name + ",</h3>"
                 + "<p>Your email has been successfully verified.</p>"
-                + "<h1>Welcome to " + APP_NAME + " 🎉</h1>"
+                + "<h1>Welcome to " + APP_NAME + " ❤️</h1>"
                 + "<p>You can now log in and start using your account.</p>"
-                + "<p>Regards,<br/>Authify Team ❤️</p>";
+                + "<p>Regards,<br/>Authify Team</p>";
 
         sendHtmlEmail(toEmail, subject, htmlBody);
     }
 
-    // --------------------------------
-    // Private Helper Method (Updated for HTML)
-    // --------------------------------
-
     private void sendHtmlEmail(String to, String subject, String htmlBody) {
-        MimeMessage message = mailSender.createMimeMessage();
+
+        Email from = new Email(fromEmail);
+        Email toEmail = new Email(to);
+        Content content = new Content("text/html", htmlBody);
+
+        Mail mail = new Mail(from, subject, toEmail, content);
+        SendGrid sg = new SendGrid(sendGridApiKey);
+
+        Request request = new Request();
 
         try {
-            // MimeMessageHelper handles complex headers and HTML content.
-            // Pass 'true' to enable multipart mode (required for HTML/attachments)
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
 
-            helper.setFrom(fromEmail);
-            helper.setTo(to);
-            helper.setSubject(subject);
-            // Pass 'true' to setText to indicate the content is HTML
-            helper.setText(htmlBody, true);
+            Response response = sg.api(request);
 
-            mailSender.send(message);
-            System.out.println("HTML Email sent successfully to: " + to);
+            System.out.println("Email sent via SendGrid! Status Code: " + response.getStatusCode());
+            System.out.println("Response Body: " + response.getBody());
 
-        } catch(MessagingException e) {
-            // Log the specific JavaMail error
-            System.err.println("Email failed to send due to MimeMessage issue!");
-            e.printStackTrace();
-        } catch(Exception e) {
-            // General exception catching is important for connection/authentication failures
-            System.err.println("Email failed to send! Check SMTP Configuration and App Password.");
+        } catch (IOException e) {
+            System.err.println("Failed to send email via SendGrid!");
             e.printStackTrace();
         }
     }
