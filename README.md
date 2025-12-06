@@ -659,7 +659,7 @@ public class SecurityConfig {
 # 3. JWT Implementation (JWT Utils, Token Provider, Filter, Integration)
 
 This step provides a complete JWT setup compatible with **Spring Boot 3 / Spring Security 6**.
-![Al Text](https://i.sstatic.net/ddCaL.png)
+![Al Text](https://coredevsltd.com/articles/wp-content/uploads/2023/10/the-flow-diagram-for-JWT-Authentication-in-the-context-of-Asp.net-Core-Web-API.png)
 
 
 
