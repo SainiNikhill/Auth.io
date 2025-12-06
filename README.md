@@ -201,7 +201,6 @@ Move data from TempUser → User Table
         ↓
 Delete temp entry
 ```
-![Alt Text](./assets/otpverification.png)
 
 ### **Steps**
 - Check OTP correctness.
