@@ -1,18 +1,18 @@
 # Authio – Secure Authentication System
 
-Authio is a production-ready, full-stack authentication system designed with real-world security and developer ergonomics in mind. It implements a multi-step registration flow that uses a temporary user table and SendGrid OTP email verification so only verified users are migrated into the main user table. Authentication is powered by JWT (access + refresh tokens) and the project is organized for clarity and easy deployment.
+Authio is a production-ready, full-stack authentication system designed with real-world security and developer ergonomics in mind. It implements a multi-step registration flow that uses a temporary user table and SendGrid OTP email verification, so only verified users are migrated into the main user table. Authentication is powered by JWT (access + refresh tokens) and the project is organized for clarity and easy deployment.
 
 ---
 
 ## 🚀 Features
 
-- 🔐 JWT Authentication (Access + Refresh tokens)  
-- 📧 Email verification using SendGrid (OTP-based)  
-- 🕒 Temporary user storage before verification (temp_user)  
-- 🔄 OAuth2-ready architecture (Google/GitHub integration ready)  
-- 🗄️ MySQL database with Spring Data JPA  
-- ⚙️ Environment-based configuration (12-factor friendly)  
-- 🧩 Clean, modular project structure suitable for production
+- JWT Authentication (Access + Refresh tokens)  
+- Email verification using SendGrid (OTP-based)  
+- Temporary user storage before verification (temp_user)  
+- OAuth2-ready architecture (Google/GitHub integration ready)  
+- MySQL database with Spring Data JPA  
+- Environment-based configuration (12-factor friendly)  
+- Clean, modular project structure suitable for production
 
 ---
 
@@ -65,7 +65,7 @@ authio-backend/
 
 ---
 
-## 🔄 Signup & Verification Flow
+## Signup & Verification Flow
 
 1. User submits the registration form.  
 2. A temporary record is created in the `temp_user` table.  
@@ -97,7 +97,7 @@ REFRESH_TOKEN_EXPIRATION_MS=
 
 ---
 
-## ▶️ Run Locally
+##  Run Locally
 
 1. Clone the repository
 ```bash
@@ -139,7 +139,7 @@ Example Dockerfile steps (outline):
 
 ---
 
-## ✅ Common API Endpoints (example)
+##  Common API Endpoints (example)
 
 - `POST /api/v1/auth/register` — Register (creates temp_user and sends OTP)  
 - `POST /api/v1/auth/verify` — Verify OTP and migrate user to main table  
@@ -160,7 +160,7 @@ Example Dockerfile steps (outline):
 ---
 
 
-## 📚 Further Improvements
+## Further Improvements
 
 - Add email verification expiry and retry limits.  
 - Implement rate-limiting on auth endpoints.  
@@ -176,7 +176,7 @@ A clear, structured explanation of how Authio handles registration, OTP verifica
 
 ---
 
-## 🔵 1. Registration Workflow
+##  1. Registration Workflow
 
 ```
 User → Submit Registration Form
@@ -199,7 +199,7 @@ Send OTP via SendGrid
 
 ---
 
-## 🔵 2. OTP Verification Workflow
+##  2. OTP Verification Workflow
 
 ```
 User → Enter OTP
@@ -220,7 +220,7 @@ Delete temp entry
 
 ---
 
-## 🔵 3. Login & Token Workflow
+##  3. Login & Token Workflow
 
 ```
 User → Login Request
@@ -241,7 +241,7 @@ Return Tokens to Client
 
 ---
 
-## 🔵 4. Token Refresh Workflow
+##  4. Token Refresh Workflow
 
 ```
 Access Token Expired
@@ -260,7 +260,7 @@ Issue New Access Token
 
 ---
 
-## 🔵 5. Logout Workflow
+##  5. Logout Workflow
 
 ```
 User → Logout
@@ -276,7 +276,7 @@ Access Token Naturally Expires
 
 ---
 
-## 🔵 6. Error Handling Workflow
+##  6. Error Handling Workflow
 
 ```
 Invalid Email → 400
@@ -290,7 +290,7 @@ Expired JWT → 401
 
 ---
 
-## 🔵 7. Deployment Workflow (Render / Railway)
+##  7. Deployment Workflow (Render / Railway)
 
 ```
 Setup Environment Variables
@@ -326,8 +326,7 @@ Refresh Token → New Access Token
 
 This workflow clearly explains every step of Authio’s authentication lifecycle.
 
-# Authio Setup – Step 1  
-## Dependencies (pom.xml) + User Entity
+## 1. Dependencies (pom.xml) + User Entity
 
 ---
 
@@ -508,8 +507,7 @@ public class User {
     }
 }
 ```
-# Authio Setup – Step 2  
-## Spring Security Configuration (Spring Boot 3 / Security 6)
+## 2. Spring Security Configuration (Spring Boot 3 / Security 6)
 
 This file contains a clean and production-ready Spring Security configuration using the new **SecurityFilterChain** approach.
 
@@ -525,7 +523,7 @@ src/main/java/in/nikhilsaini/authify/security/PasswordEncoderConfig.java
 
 ---
 
-# ✅ 1. Password Encoder Configuration
+#  1. Password Encoder Configuration
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/security/PasswordEncoderConfig.java`
@@ -550,7 +548,7 @@ public class PasswordEncoderConfig {
 
 ---
 
-# ✅ 2. CustomUserDetailsService
+#  2. CustomUserDetailsService
 
 This tells Spring Security how to load users from the database.
 
@@ -593,7 +591,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 ---
 
-# ✅ 3. Spring Security Configuration (Main File)
+#  3. Spring Security Configuration (Main File)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/config/SecurityConfig.java`
@@ -666,8 +664,8 @@ public class SecurityConfig {
 }
 ```
 ---
-# Authio Setup – Step 3  
-## JWT Implementation (JWT Utils, Token Provider, Filter, Integration)
+
+## 3. JWT Implementation (JWT Utils, Token Provider, Filter, Integration)
 
 This step provides a complete JWT setup compatible with **Spring Boot 3 / Spring Security 6**.
 
@@ -683,7 +681,7 @@ src/main/java/in/nikhilsaini/authify/security/jwt/JwtTokenProvider.java
 
 ---
 
-# ✅ 1. JwtTokenProvider (Generate + Validate Tokens)
+#  1. JwtTokenProvider (Generate + Validate Tokens)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/security/jwt/JwtTokenProvider.java`
@@ -752,7 +750,7 @@ public class JwtTokenProvider {
 
 ---
 
-# ✅ 2. JwtUtils (Extract Bearer Token)
+#  2. JwtUtils (Extract Bearer Token)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/security/jwt/JwtUtils.java`
@@ -779,7 +777,7 @@ public class JwtUtils {
 
 ---
 
-# ✅ 3. JwtAuthenticationFilter (Main JWT Filter)
+#  3. JwtAuthenticationFilter (Main JWT Filter)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/security/jwt/JwtAuthenticationFilter.java`
@@ -847,7 +845,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 ---
 
-# ✅ 4. Add JWT Filter to SecurityConfig
+#  4. Add JWT Filter to SecurityConfig
 
 Modify your existing `SecurityConfig`:
 
@@ -891,8 +889,8 @@ jwt.expiration=86400000   # 24 hours in ms
 ```
 
 ---
-# Authio Setup – Step 4  
-## OAuth2 Login Implementation (Google Login)
+
+## 4. OAuth2 Login Implementation (Google Login)
 
 This step adds **Google OAuth2 authentication** to Authio.  
 Users can log in using Google, and the system will automatically create or update their account in your database.
@@ -909,7 +907,7 @@ src/main/java/in/nikhilsaini/authify/security/oauth/OAuth2SuccessHandler.java
 
 ---
 
-# ✅ 1. CustomOAuth2User (Wrapper for OAuth Attributes)
+#  1. CustomOAuth2User (Wrapper for OAuth Attributes)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/security/oauth/CustomOAuth2User.java`
@@ -958,7 +956,7 @@ public class CustomOAuth2User implements OAuth2User {
 
 ---
 
-# ✅ 2. CustomOAuth2UserService (Load + Save OAuth Users)
+#  2. CustomOAuth2UserService (Load + Save OAuth Users)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/security/oauth/CustomOAuth2UserService.java`
@@ -1013,7 +1011,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 ---
 
-# ✅ 3. OAuth2 Success Handler (Redirect + JWT Issue Option)
+#  3. OAuth2 Success Handler (Redirect + JWT Issue Option)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/security/oauth/OAuth2SuccessHandler.java`
@@ -1053,7 +1051,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
 ---
 
-# ✅ 4. Update SecurityConfig for OAuth2 Login
+#  4. Update SecurityConfig for OAuth2 Login
 
 Modify your `SecurityConfig.java`:
 
@@ -1088,7 +1086,7 @@ Full example snippet:
 
 ---
 
-# ✅ 5. Add OAuth2 Properties (application.properties)
+#  5. Add OAuth2 Properties (application.properties)
 
 ```
 spring.security.oauth2.client.registration.google.client-id=YOUR_GOOGLE_CLIENT_ID
@@ -1098,8 +1096,7 @@ spring.security.oauth2.client.registration.google.redirect-uri=http://localhost:
 ```
 
 ---
-# Authio Setup – Step 5  
-## Auth Service + Auth Controller (Register, OTP Verify, Login, Refresh)
+## 5. Auth Service + Auth Controller (Register, OTP Verify, Login, Refresh)
 
 This step wires everything together:
 
@@ -1130,7 +1127,7 @@ src/main/java/in/nikhilsaini/authify/controller/AuthController.java
 
 ---
 
-# ✅ 1. TempUser Entity
+#  1. TempUser Entity
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/entity/TempUser.java`
@@ -1186,7 +1183,7 @@ public class TempUser {
 
 ---
 
-# ✅ 2. TempUserRepository
+#  2. TempUserRepository
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/repository/TempUserRepository.java`
@@ -1209,7 +1206,7 @@ public interface TempUserRepository extends JpaRepository<TempUser, Long> {
 
 ---
 
-# ✅ 3. DTOs for Auth Endpoints
+#  3. DTOs for Auth Endpoints
 
 Create folder:  
 `src/main/java/in/nikhilsaini/authify/dto/`
@@ -1300,7 +1297,7 @@ public class AuthResponse {
 
 ---
 
-# ✅ 4. AuthService Interface
+#  4. AuthService Interface
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/service/AuthService.java`
@@ -1324,7 +1321,7 @@ public interface AuthService {
 
 ---
 
-# ✅ 5. AuthServiceImpl (Core Auth Logic)
+#  5. AuthServiceImpl (Core Auth Logic)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/service/impl/AuthServiceImpl.java`
@@ -1464,7 +1461,7 @@ public class AuthServiceImpl implements AuthService {
 
 ---
 
-# ✅ 6. AuthController
+#  6. AuthController
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/controller/AuthController.java`
@@ -1511,8 +1508,8 @@ public class AuthController {
 ```
 
 ---
-# Authio Setup – Step 6  
-## Email Service (SendGrid OTP Delivery)
+
+## 6.  Email Service (SendGrid OTP Delivery)
 
 This step adds real OTP email sending using **SendGrid**, completing the registration and verification workflow.
 
@@ -1528,7 +1525,7 @@ src/main/resources/application.properties
 
 ---
 
-# ✅ 1. EmailService Interface
+#  1. EmailService Interface
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/service/EmailService.java`
@@ -1543,7 +1540,7 @@ public interface EmailService {
 
 ---
 
-# ✅ 2. EmailServiceImpl (SendGrid Implementation)
+#  2. EmailServiceImpl (SendGrid Implementation)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/service/impl/EmailServiceImpl.java`
@@ -1604,7 +1601,7 @@ public class EmailServiceImpl implements EmailService {
 
 ---
 
-# ✅ 3. Add Properties to `application.properties`
+#  3. Add Properties to `application.properties`
 
 ```
 sendgrid.api.key=YOUR_SENDGRID_API_KEY
@@ -1613,7 +1610,7 @@ mail.from=your-email@example.com
 
 ---
 
-# ✅ 4. Integrate Email Service in AuthServiceImpl
+#  4. Integrate Email Service in AuthServiceImpl
 
 Inside your `AuthServiceImpl.register()` method:
 
@@ -1628,8 +1625,8 @@ private final EmailService emailService;
 ```
 
 ---
-# Authio Setup – Step 7  
-## Global Exception Handling (ControllerAdvice + Custom Error Response)
+
+## 7. Global Exception Handling (ControllerAdvice + Custom Error Response)
 
 This step provides clean, production-ready **global exception handling** using:
 
@@ -1649,7 +1646,7 @@ src/main/java/in/nikhilsaini/authify/exception/GlobalExceptionHandler.java
 
 ---
 
-# ✅ 1. ErrorResponse (Standard JSON Format)
+#  1. ErrorResponse (Standard JSON Format)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/exception/ErrorResponse.java`
@@ -1676,7 +1673,7 @@ public class ErrorResponse {
 
 ---
 
-# ✅ 2. ApiException (Custom Runtime Exception)
+#  2. ApiException (Custom Runtime Exception)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/exception/ApiException.java`
@@ -1694,7 +1691,7 @@ public class ApiException extends RuntimeException {
 
 ---
 
-# ✅ 3. GlobalExceptionHandler (`@ControllerAdvice`)
+#  3. GlobalExceptionHandler (`@ControllerAdvice`)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/exception/GlobalExceptionHandler.java`
@@ -1780,7 +1777,7 @@ public class GlobalExceptionHandler {
 
 ---
 
-# ✅ 4. How to use ApiException
+#  4. How to use ApiException
 
 Example inside `AuthServiceImpl`:
 
@@ -1810,8 +1807,7 @@ if (userRepository.findByEmail(request.getEmail()).isPresent()) {
 
 
 ## 📝 License
-
-Specify your license here (e.g., MIT). Example:
+NIKHIL SAINI
 
 ```
 MIT License
