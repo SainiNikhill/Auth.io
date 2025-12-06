@@ -2,7 +2,6 @@
 
 Authio is a production-ready, full-stack authentication system designed with real-world security and developer ergonomics in mind. It implements a multi-step registration flow that uses a temporary user table and SendGrid OTP email verification, so only verified users are migrated into the main user table. Authentication is powered by JWT (access + refresh tokens) and the project is organized for clarity and easy deployment.
 
----
 
 ## 🚀 Features
 
@@ -13,8 +12,6 @@ Authio is a production-ready, full-stack authentication system designed with rea
 - MySQL database with Spring Data JPA  
 - Environment-based configuration (12-factor friendly)  
 - Clean, modular project structure suitable for production
-
----
 
 ## 🏗️ Project Structure
 
@@ -43,7 +40,6 @@ authio-backend/
 └── pom.xml
 ```
 
----
 
 ## 🛠️ Tech Stack
 
@@ -63,7 +59,6 @@ authio-backend/
 - Host on Render / Railway / Heroku / any cloud provider
 - but free tier is not good and it also doesnt support raw javaMailSender (blocks SMTP direct and PORT 587) 
 
----
 
 ## Signup & Verification Flow
 
@@ -74,7 +69,6 @@ authio-backend/
 5. Data is migrated from `temp_user` to the main `user` table.  
 6. User can login and receive JWT tokens (access + refresh).
 
----
 
 ## ⚙️ Environment Variables
 
@@ -94,8 +88,6 @@ JWT_EXPIRATION_MS=
 REFRESH_TOKEN_SECRET=
 REFRESH_TOKEN_EXPIRATION_MS=
 ```
-
----
 
 ##  Run Locally
 
@@ -119,16 +111,12 @@ mvn package
 java -jar target/authio-backend-0.0.1-SNAPSHOT.jar
 ```
 
----
-
 ## 🧪 Tests
 
 Run unit tests with:
 ```bash
 mvn test
 ```
-
----
 
 ## 📦 Docker (optional)
 
@@ -137,7 +125,6 @@ Example Dockerfile steps (outline):
 2. Use a slim OpenJDK base image
 3. Copy the built jar into the image and run it
 
----
 
 ##  Common API Endpoints (example)
 
@@ -149,7 +136,6 @@ Example Dockerfile steps (outline):
 
 (Adapt paths/names to match your implementation.)
 
----
 
 ## 🔒 Security Notes
 
@@ -157,7 +143,6 @@ Example Dockerfile steps (outline):
 - Use HTTPS in production and set secure cookie flags if you use cookies.  
 - Rotate tokens and secrets periodically.
 
----
 
 
 ## Further Improvements
@@ -168,7 +153,6 @@ Example Dockerfile steps (outline):
 - Add frontend sample (React) to demonstrate flows.  
 - Add CI (GitHub Actions) and automated deployments.
 
----
 
 # 🧩  Authio – Project Workflow
 
@@ -320,12 +304,9 @@ Access Protected APIs
 Refresh Token → New Access Token
 ```
 
-This workflow clearly explains every step of Authio’s authentication lifecycle.
----
-
 
 # Project Setup and Code
----
+
 # 1. Dependencies (pom.xml) + User Entity
 
 ## 📌 Step 1: Add Dependencies (pom.xml)
@@ -427,8 +408,6 @@ This workflow clearly explains every step of Authio’s authentication lifecycle
 
 </project>
 ```
-
----
 
 ## 📌 Step 2: Create User Entity
 
