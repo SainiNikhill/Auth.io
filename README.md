@@ -70,6 +70,10 @@ authio-backend/
 6. User can login and receive JWT tokens (access + refresh).
 
 
+## Spring Security Work Flow
+![Alt Text](./assets/springsecurity.png)
+
+
 ## ⚙️ Environment Variables
 
 Add these to your environment or `.env` file (used by your deployment platform):
@@ -197,6 +201,7 @@ Move data from TempUser → User Table
         ↓
 Delete temp entry
 ```
+![Alt Text](./assets/otpverification.png)
 
 ### **Steps**
 - Check OTP correctness.
@@ -225,6 +230,8 @@ Return Tokens to Client
   - **Refresh Token** (long-lived)
 - Client uses tokens for further authenticated requests.
 
+![Alt Text](./assets/login.png)
+
 
 
 ##  4. Token Refresh Workflow
@@ -244,6 +251,20 @@ Issue New Access Token
 - Backend validates it.
 - Backend issues a new access token without requiring login again.
 
+
+## 5. Forgot Password Workflow
+
+```
+1. User clicks Forgot password
+2. Then go to the Forgot Password page and enter the user's email ID.
+3. Server receives the request and checks the email in database.
+4. Then sends the OTP to the user's email ID.
+5. Then User enter the OTP in VerificationPage then after successful Verification user now can reset password.
+
+```
+![Alt Text](./assets/forgotpassword.png)
+
+![Alt Text](./assets/otpverification.png)
 
 ##  5. Logout Workflow
 
@@ -639,6 +660,7 @@ public class SecurityConfig {
 # 3. JWT Implementation (JWT Utils, Token Provider, Filter, Integration)
 
 This step provides a complete JWT setup compatible with **Spring Boot 3 / Spring Security 6**.
+![Al Text](./assets/jwtflow.png)
 
 
 
@@ -857,6 +879,7 @@ jwt.expiration=86400000   # 24 hours in ms
 
 This step adds **Google OAuth2 authentication** to Authio.  
 Users can log in using Google, and the system will automatically create or update their account in your database.
+![Alt Text](./assets/oauthflow.png)
 
 
 ## 📁 Folder Structure for OAuth2
