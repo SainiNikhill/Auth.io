@@ -181,6 +181,8 @@ Send OTP via SendGrid
 4. A 6‑digit OTP is generated.
 5. OTP is emailed to the user using SendGrid.
 
+![Alt Text](./assets/register.png)
+
 
 
 ##  2. OTP Verification Workflow
