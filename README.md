@@ -170,11 +170,11 @@ Example Dockerfile steps (outline):
 
 ---
 
-## 🧩  Authio – Project Workflow
+# 🧩  Authio – Project Workflow
 
 A clear, structured explanation of how Authio handles registration, OTP verification, authentication, and token management.
 
----
+
 
 ##  1. Registration Workflow
 
@@ -197,7 +197,7 @@ Send OTP via SendGrid
 4. A 6‑digit OTP is generated.
 5. OTP is emailed to the user using SendGrid.
 
----
+
 
 ##  2. OTP Verification Workflow
 
@@ -218,7 +218,7 @@ Delete temp entry
 - If valid, migrate user to the main `user` table.
 - Remove temporary entry.
 
----
+
 
 ##  3. Login & Token Workflow
 
@@ -239,7 +239,7 @@ Return Tokens to Client
   - **Refresh Token** (long-lived)
 - Client uses tokens for further authenticated requests.
 
----
+
 
 ##  4. Token Refresh Workflow
 
@@ -258,7 +258,6 @@ Issue New Access Token
 - Backend validates it.
 - Backend issues a new access token without requiring login again.
 
----
 
 ##  5. Logout Workflow
 
@@ -274,7 +273,7 @@ Access Token Naturally Expires
 - Refresh token is deleted/invalidated.
 - Access token becomes unusable after expiry.
 
----
+
 
 ##  6. Error Handling Workflow
 
@@ -288,7 +287,6 @@ Invalid JWT → 403
 Expired JWT → 401
 ```
 
----
 
 ##  7. Deployment Workflow (Render / Railway)
 
@@ -304,7 +302,7 @@ Deploy Spring Boot App
 Configure CORS + Base URL
 ```
 
----
+
 
 ## 📌 Summary Diagram
 
@@ -322,13 +320,13 @@ Access Protected APIs
 Refresh Token → New Access Token
 ```
 
----
-
 This workflow clearly explains every step of Authio’s authentication lifecycle.
-
-## 1. Dependencies (pom.xml) + User Entity
-
 ---
+
+
+# Project Setup and Code
+---
+# 1. Dependencies (pom.xml) + User Entity
 
 ## 📌 Step 1: Add Dependencies (pom.xml)
 
@@ -507,11 +505,10 @@ public class User {
     }
 }
 ```
-## 2. Spring Security Configuration (Spring Boot 3 / Security 6)
+# 2. Spring Security Configuration (Spring Boot 3 / Security 6)
 
 This file contains a clean and production-ready Spring Security configuration using the new **SecurityFilterChain** approach.
 
----
 
 ## 📌 Folder Structure for This Step
 
@@ -521,9 +518,7 @@ src/main/java/in/nikhilsaini/authify/security/CustomUserDetailsService.java
 src/main/java/in/nikhilsaini/authify/security/PasswordEncoderConfig.java
 ```
 
----
-
-#  1. Password Encoder Configuration
+###  1. Password Encoder Configuration
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/security/PasswordEncoderConfig.java`
@@ -546,9 +541,7 @@ public class PasswordEncoderConfig {
 }
 ```
 
----
-
-#  2. CustomUserDetailsService
+### 2. CustomUserDetailsService
 
 This tells Spring Security how to load users from the database.
 
@@ -589,9 +582,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 }
 ```
 
----
-
-#  3. Spring Security Configuration (Main File)
+###  3. Spring Security Configuration (Main File)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/config/SecurityConfig.java`
@@ -663,15 +654,14 @@ public class SecurityConfig {
     }
 }
 ```
----
 
-## 3. JWT Implementation (JWT Utils, Token Provider, Filter, Integration)
+# 3. JWT Implementation (JWT Utils, Token Provider, Filter, Integration)
 
 This step provides a complete JWT setup compatible with **Spring Boot 3 / Spring Security 6**.
 
----
 
-# 📁 Folder Structure for JWT
+
+## 📁 Folder Structure for JWT
 
 ```
 src/main/java/in/nikhilsaini/authify/security/jwt/JwtUtils.java
@@ -679,9 +669,8 @@ src/main/java/in/nikhilsaini/authify/security/jwt/JwtAuthenticationFilter.java
 src/main/java/in/nikhilsaini/authify/security/jwt/JwtTokenProvider.java
 ```
 
----
 
-#  1. JwtTokenProvider (Generate + Validate Tokens)
+##  1. JwtTokenProvider (Generate + Validate Tokens)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/security/jwt/JwtTokenProvider.java`
@@ -748,9 +737,8 @@ public class JwtTokenProvider {
 }
 ```
 
----
 
-#  2. JwtUtils (Extract Bearer Token)
+##  2. JwtUtils (Extract Bearer Token)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/security/jwt/JwtUtils.java`
@@ -775,9 +763,7 @@ public class JwtUtils {
 }
 ```
 
----
-
-#  3. JwtAuthenticationFilter (Main JWT Filter)
+##  3. JwtAuthenticationFilter (Main JWT Filter)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/security/jwt/JwtAuthenticationFilter.java`
@@ -843,9 +829,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 }
 ```
 
----
-
-#  4. Add JWT Filter to SecurityConfig
+##  4. Add JWT Filter to SecurityConfig
 
 Modify your existing `SecurityConfig`:
 
@@ -879,25 +863,22 @@ Make sure to inject the filter:
 private final JwtAuthenticationFilter jwtAuthenticationFilter;
 ```
 
----
-
-# 📌 5. Add JWT Properties to application.properties
+## 📌 5. Add JWT Properties to application.properties
 
 ```
 jwt.secret=YOUR256BITSECRETKEYHERE1234567890123456
 jwt.expiration=86400000   # 24 hours in ms
 ```
 
----
 
-## 4. OAuth2 Login Implementation (Google Login)
+
+# 4. OAuth2 Login Implementation (Google Login)
 
 This step adds **Google OAuth2 authentication** to Authio.  
 Users can log in using Google, and the system will automatically create or update their account in your database.
 
----
 
-# 📁 Folder Structure for OAuth2
+## 📁 Folder Structure for OAuth2
 
 ```
 src/main/java/in/nikhilsaini/authify/security/oauth/CustomOAuth2User.java
@@ -905,9 +886,8 @@ src/main/java/in/nikhilsaini/authify/security/oauth/CustomOAuth2UserService.java
 src/main/java/in/nikhilsaini/authify/security/oauth/OAuth2SuccessHandler.java
 ```
 
----
 
-#  1. CustomOAuth2User (Wrapper for OAuth Attributes)
+##  1. CustomOAuth2User (Wrapper for OAuth Attributes)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/security/oauth/CustomOAuth2User.java`
@@ -954,9 +934,8 @@ public class CustomOAuth2User implements OAuth2User {
 }
 ```
 
----
 
-#  2. CustomOAuth2UserService (Load + Save OAuth Users)
+##  2. CustomOAuth2UserService (Load + Save OAuth Users)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/security/oauth/CustomOAuth2UserService.java`
@@ -1009,9 +988,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 }
 ```
 
----
-
-#  3. OAuth2 Success Handler (Redirect + JWT Issue Option)
+## 3. OAuth2 Success Handler (Redirect + JWT Issue Option)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/security/oauth/OAuth2SuccessHandler.java`
@@ -1049,9 +1026,8 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 }
 ```
 
----
 
-#  4. Update SecurityConfig for OAuth2 Login
+##  4. Update SecurityConfig for OAuth2 Login
 
 Modify your `SecurityConfig.java`:
 
@@ -1084,9 +1060,7 @@ Full example snippet:
 )
 ```
 
----
-
-#  5. Add OAuth2 Properties (application.properties)
+##  5. Add OAuth2 Properties (application.properties)
 
 ```
 spring.security.oauth2.client.registration.google.client-id=YOUR_GOOGLE_CLIENT_ID
@@ -1095,8 +1069,7 @@ spring.security.oauth2.client.registration.google.scope=email,profile
 spring.security.oauth2.client.registration.google.redirect-uri=http://localhost:8080/login/oauth2/code/google
 ```
 
----
-## 5. Auth Service + Auth Controller (Register, OTP Verify, Login, Refresh)
+# 5. Auth Service + Auth Controller (Register, OTP Verify, Login, Refresh)
 
 This step wires everything together:
 
@@ -1105,8 +1078,6 @@ This step wires everything together:
 - DTOs for auth APIs  
 - `AuthService` + `AuthServiceImpl`  
 - `AuthController` with main endpoints  
-
----
 
 ## 📁 Folder Structure for This Step
 
@@ -1125,9 +1096,8 @@ src/main/java/in/nikhilsaini/authify/service/impl/AuthServiceImpl.java
 src/main/java/in/nikhilsaini/authify/controller/AuthController.java
 ```
 
----
 
-#  1. TempUser Entity
+## 1. TempUser Entity
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/entity/TempUser.java`
@@ -1181,9 +1151,7 @@ public class TempUser {
 }
 ```
 
----
-
-#  2. TempUserRepository
+##  2. TempUserRepository
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/repository/TempUserRepository.java`
@@ -1204,14 +1172,12 @@ public interface TempUserRepository extends JpaRepository<TempUser, Long> {
 }
 ```
 
----
-
-#  3. DTOs for Auth Endpoints
+##  3. DTOs for Auth Endpoints
 
 Create folder:  
 `src/main/java/in/nikhilsaini/authify/dto/`
 
-## 3.1 RegisterRequest
+### 3.1 RegisterRequest
 
 ```java
 package in.nikhilsaini.authify.dto;
@@ -1235,7 +1201,7 @@ public class RegisterRequest {
 }
 ```
 
-## 3.2 LoginRequest
+### 3.2 LoginRequest
 
 ```java
 package in.nikhilsaini.authify.dto;
@@ -1256,7 +1222,7 @@ public class LoginRequest {
 }
 ```
 
-## 3.3 VerifyOtpRequest
+### 3.3 VerifyOtpRequest
 
 ```java
 package in.nikhilsaini.authify.dto;
@@ -1277,7 +1243,7 @@ public class VerifyOtpRequest {
 }
 ```
 
-## 3.4 AuthResponse
+### 3.4 AuthResponse
 
 ```java
 package in.nikhilsaini.authify.dto;
@@ -1295,9 +1261,8 @@ public class AuthResponse {
 }
 ```
 
----
 
-#  4. AuthService Interface
+##  4. AuthService Interface
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/service/AuthService.java`
@@ -1319,9 +1284,8 @@ public interface AuthService {
 }
 ```
 
----
 
-#  5. AuthServiceImpl (Core Auth Logic)
+##  5. AuthServiceImpl (Core Auth Logic)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/service/impl/AuthServiceImpl.java`
@@ -1459,9 +1423,7 @@ public class AuthServiceImpl implements AuthService {
 }
 ```
 
----
-
-#  6. AuthController
+##  6. AuthController
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/controller/AuthController.java`
@@ -1507,15 +1469,13 @@ public class AuthController {
 }
 ```
 
----
 
-## 6.  Email Service (SendGrid OTP Delivery)
+# 6.  Email Service (SendGrid OTP Delivery)
 
 This step adds real OTP email sending using **SendGrid**, completing the registration and verification workflow.
 
----
 
-# 📁 Folder Structure
+## 📁 Folder Structure
 
 ```
 src/main/java/in/nikhilsaini/authify/service/EmailService.java
@@ -1523,9 +1483,8 @@ src/main/java/in/nikhilsaini/authify/service/impl/EmailServiceImpl.java
 src/main/resources/application.properties
 ```
 
----
 
-#  1. EmailService Interface
+##  1. EmailService Interface
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/service/EmailService.java`
@@ -1538,9 +1497,8 @@ public interface EmailService {
 }
 ```
 
----
 
-#  2. EmailServiceImpl (SendGrid Implementation)
+##  2. EmailServiceImpl (SendGrid Implementation)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/service/impl/EmailServiceImpl.java`
@@ -1599,18 +1557,16 @@ public class EmailServiceImpl implements EmailService {
 }
 ```
 
----
 
-#  3. Add Properties to `application.properties`
+##  3. Add Properties to `application.properties`
 
 ```
 sendgrid.api.key=YOUR_SENDGRID_API_KEY
 mail.from=your-email@example.com
 ```
 
----
 
-#  4. Integrate Email Service in AuthServiceImpl
+##  4. Integrate Email Service in AuthServiceImpl
 
 Inside your `AuthServiceImpl.register()` method:
 
@@ -1624,9 +1580,8 @@ Inject the service:
 private final EmailService emailService;
 ```
 
----
 
-## 7. Global Exception Handling (ControllerAdvice + Custom Error Response)
+# 7. Global Exception Handling (ControllerAdvice + Custom Error Response)
 
 This step provides clean, production-ready **global exception handling** using:
 
@@ -1634,9 +1589,9 @@ This step provides clean, production-ready **global exception handling** using:
 - `ErrorResponse` (standardized JSON response format)
 - `GlobalExceptionHandler` (`@ControllerAdvice`)
 
----
 
-# 📁 Folder Structure
+
+## 📁 Folder Structure
 
 ```
 src/main/java/in/nikhilsaini/authify/exception/ApiException.java
@@ -1644,9 +1599,8 @@ src/main/java/in/nikhilsaini/authify/exception/ErrorResponse.java
 src/main/java/in/nikhilsaini/authify/exception/GlobalExceptionHandler.java
 ```
 
----
 
-#  1. ErrorResponse (Standard JSON Format)
+##  1. ErrorResponse (Standard JSON Format)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/exception/ErrorResponse.java`
@@ -1671,9 +1625,8 @@ public class ErrorResponse {
 }
 ```
 
----
 
-#  2. ApiException (Custom Runtime Exception)
+## 2. ApiException (Custom Runtime Exception)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/exception/ApiException.java`
@@ -1689,9 +1642,9 @@ public class ApiException extends RuntimeException {
 }
 ```
 
----
 
-#  3. GlobalExceptionHandler (`@ControllerAdvice`)
+
+##  3. GlobalExceptionHandler (`@ControllerAdvice`)
 
 Create file:  
 `src/main/java/in/nikhilsaini/authify/exception/GlobalExceptionHandler.java`
@@ -1775,9 +1728,8 @@ public class GlobalExceptionHandler {
 }
 ```
 
----
 
-#  4. How to use ApiException
+##  4. How to use ApiException
 
 Example inside `AuthServiceImpl`:
 
