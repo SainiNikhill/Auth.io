@@ -1740,9 +1740,6 @@ if (userRepository.findByEmail(request.getEmail()).isPresent()) {
 ## 📝 License
 NIKHIL SAINI
 
-```
-MIT License
-Copyright (c) 2025 <Your Name>
-```
+
 
 
